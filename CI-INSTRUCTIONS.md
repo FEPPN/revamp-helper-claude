@@ -76,8 +76,17 @@ Crea `output/` se non esiste; tutti i file intermedi e il report finale vanno l�
 ## Cosa scrivere nella risposta (commento sull'issue)
 
 In francese (il copywriter è francofono — Runtime Rule 8 di `SKILL.md`). Non incollare l'intero
-contenuto del file Excel: un **riepilogo leggibile a colpo d'occhio**, poi il file scaricabile è
-già allegato alla run come artifact (dillo, con "voir Artifacts en bas de la page de cette run").
+contenuto del file Excel: un **riepilogo leggibile a colpo d'occhio**, con un link diretto e
+cliccabile al report completo (non solo "guarda gli Artifacts" — costruisci il link vero, vedi
+sotto).
+
+**Link diretto alla run corrente**: leggi le variabili d'ambiente standard di GitHub Actions
+(disponibili via Bash, es. `echo "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"`)
+e componi l'URL — è la pagina della run dove il copywriter trova la sezione "Artifacts" in
+fondo. Usalo come link nel commento finale, non lasciare solo testo generico.
+
+GitHub renderizza HTML `<details><summary>` come accordion pieghevole nei commenti — usalo per
+le liste PAA/related searches così il commento resta leggibile senza scrollare via.
 
 Struttura del commento:
 ```
@@ -86,26 +95,44 @@ Struttura del commento:
 Page cible : <url> (trouvée automatiquement / fournie par vous)
 ⚠️ Cannibalisation potentielle : <url alternatives> (seulement si target_alternatives non vide)
 
-### Concurrents trouvés
-| Site | Page | Statut |
-(4 lignes, note "pas de page dédiée" si no_dedicated_avis_page)
+### Concurrents analysés
+- selectra.info : <url> (ou "pas de page dédiée")
+- kelwatt.fr : <url>
+- fournisseurs-electricite.com : <url>
+- hellowatt.fr : <url>
 
-### Aperçu mots-clés secondaires (Ahrefs)
-(top 10 par volume si le CSV a été fourni, sinon : "Aucun CSV Ahrefs fourni — onglet vide, voir
-comment en ajouter un dans un commentaire")
+### Ahrefs
+(une ligne : CSV fourni et traité / aucun CSV fourni, onglet vide)
 
-### Aperçu SERP
-PAA (nombre trouvé), related searches (nombre), AI Overview présent : oui/non
+### SERP
+<details><summary>PAA trouvées (N)</summary>
 
-### Aperçu GSC
+- question 1
+- question 2
+- ...
+
+</details>
+
+<details><summary>Recherches associées (N)</summary>
+
+- terme 1
+- terme 2
+- ...
+
+</details>
+
+AI Overview présent : oui/non
+
+### GSC
 Top 5 requêtes par clics sur cette page (ou "aucune donnée trouvée pour cette page")
 
-### Budget SerpAPI
-Avant : N recherches restantes ce mois-ci · Après : N
+Budget SerpAPI : N recherches restantes ce mois-ci
 
-📎 Le rapport Excel complet (5 onglets) est disponible en téléchargement dans les "Artifacts"
-de cette exécution GitHub Actions.
+📎 [Rapport complet (Excel, 5 onglets)](<lien direct vers la run construit ci-dessus>)
 ```
+
+Se `PAA`/`related_searches` sono vuoti (array vuoto in `serp.json`), non mostrare un accordion
+vuoto — scrivi "aucune PAA trouvée" / "aucune recherche associée trouvée" in linea.
 
 ## Regole valide sempre
 
