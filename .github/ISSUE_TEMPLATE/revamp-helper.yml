@@ -14,11 +14,13 @@ body:
   - type: input
     id: brand
     attributes:
-      label: Marque
-      description: Le nom de la marque tel qu'il doit apparaître dans le rapport (phrases en français)
+      label: Marque (optionnel)
+      description: >-
+        Le nom de la marque tel qu'il doit apparaître dans le rapport (phrases en français).
+        Laissez vide pour que Claude le déduise du mot-clé ou de la page cible trouvée.
       placeholder: "EDF"
     validations:
-      required: true
+      required: false
   - type: input
     id: page_url
     attributes:

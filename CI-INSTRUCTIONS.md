@@ -19,9 +19,17 @@ esportato a mano dal copywriter invece della chiamata MCP `keywords-explorer-mat
 ## Input da questa issue
 
 Dal corpo dell'issue (o dal commento che ha menzionato `@claude`, se è un follow-up): `keyword`
-(obbligatoria), `brand` (obbligatoria — mai hardcodare un brand da un run precedente, vedi
-Gotcha #4 di `SKILL.md`), `page_url` (opzionale — se assente la trova `find_pages.py`), il CSV
-Ahrefs incollato (opzionale), note extra (opzionale).
+(obbligatoria), `brand` (opzionale — se assente deducila tu, vedi sotto; mai hardcodare un brand
+da un run precedente, vedi Gotcha #4 di `SKILL.md`), `page_url` (opzionale — se assente la trova
+`find_pages.py`), il CSV Ahrefs incollato (opzionale), note extra (opzionale).
+
+**Se `brand` è vuoto**: deducila dalla keyword (es. "avis edf" → "EDF") o, se ambigua, dallo slug
+della pagina target trovata da `find_pages.py` al punto 1 della pipeline (es.
+`.../edf/avis/` → "EDF") — usa la capitalizzazione corretta del nome reale del brand (non
+l'URL slug grezzo). `--brand` resta obbligatorio per `build_report.py`, non può mai essere
+vuoto: se la deduzione è incerta, scegli comunque la tua migliore ipotesi e dichiarala
+esplicitamente nel riepilogo finale ("Marque déduite : X — corrigez si besoin dans un
+commentaire") così il copywriter può correggerla in un commento successivo se sbagliata.
 
 ## Pipeline (ordine fisso)
 
@@ -88,9 +96,12 @@ fondo. Usalo come link nel commento finale, non lasciare solo testo generico.
 GitHub renderizza HTML `<details><summary>` come accordion pieghevole nei commenti — usalo per
 le liste PAA/related searches così il commento resta leggibile senza scrollare via.
 
-Struttura del commento:
+Struttura del commento (aggiungi la riga "Marque déduite" solo se il brand non era nell'issue):
 ```
 ## Rapport de revamp — <keyword> (<brand>)
+
+Marque déduite : <brand> à partir de <mot-clé / page cible> — corrigez si besoin dans un
+commentaire (seulement si la marque n'a pas été fournie dans l'issue)
 
 Page cible : <url> (trouvée automatiquement / fournie par vous)
 ⚠️ Cannibalisation potentielle : <url alternatives> (seulement si target_alternatives non vide)

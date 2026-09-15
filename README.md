@@ -69,8 +69,9 @@ Repo → tab **Issues** → **New issue** → dovresti vedere il template **"Rap
 ## Comment un(e) copywriter l'utilise (en français — c'est ce qu'iel voit)
 
 1. Repo → onglet **Issues** → **New issue** → modèle **"Rapport de revamp"**
-2. Remplissez **mot-clé** et **marque** (obligatoires) ; URL de la page cible et CSV Ahrefs si
-   vous les avez déjà → **Submit new issue**
+2. Remplissez **mot-clé** (obligatoire) ; marque, URL de la page cible et CSV Ahrefs si vous les
+   avez déjà — sinon Claude déduit la marque à partir du mot-clé ou de la page trouvée → **Submit
+   new issue**
 3. En quelques minutes, Claude répond en commentaire avec un **résumé** : page cible trouvée
    (ou alerte de cannibalisation), les 4 concurrents, un aperçu des mots-clés secondaires (si
    CSV fourni), un aperçu SERP et GSC, le solde SerpAPI
