@@ -1,0 +1,4 @@
+scripts/secrets/
+output/
+__pycache__/
+*.pyc

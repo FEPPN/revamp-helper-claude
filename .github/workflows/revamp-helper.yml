@@ -1,0 +1,63 @@
+name: Revamp Helper (Claude)
+
+# Tool copywriter: s'utilise en ouvrant une Issue depuis le modèle "Rapport de
+# revamp" (.github/ISSUE_TEMPLATE/revamp-helper.yml), puis en commentant
+# @claude pour relancer/corriger. Authentifié avec l'abonnement Claude de
+# l'équipe (CLAUDE_CODE_OAUTH_TOKEN), pas une clé API payante. Voir
+# CI-INSTRUCTIONS.md pour le détail de l'orchestration (scripts déterministes
+# pour SERP/concurrents/Ahrefs-CSV/GSC, Claude assemble et résume).
+
+on:
+  issues:
+    types: [opened]
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  issues: write
+  id-token: write
+
+jobs:
+  report:
+    if: >-
+      contains(github.event.issue.labels.*.name, 'revamp-helper') &&
+      !github.event.issue.pull_request &&
+      (github.event_name == 'issues' || contains(github.event.comment.body, '@claude'))
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Installa dipendenze Python
+        run: pip install -r requirements.txt
+
+      - name: Ricostruisci le credenziali GSC dai secret
+        run: |
+          mkdir -p scripts/secrets
+          echo "${{ secrets.GSC_CLIENT_SECRET_JSON }}" | base64 -d > scripts/secrets/gsc_client_secret.json
+          echo "${{ secrets.GSC_TOKEN_JSON }}" | base64 -d > scripts/secrets/gsc_token.json
+
+      - name: Esegui il report con Claude Code
+        uses: anthropics/claude-code-action@v1
+        env:
+          SERPAPI_API_KEY: ${{ secrets.SERPAPI_API_KEY }}
+          GOOGLE_NLP_API_KEY: ${{ secrets.GOOGLE_NLP_API_KEY }}
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          claude_args: '--allowedTools "Read,Write,Bash,Grep,Glob"'
+
+      - name: Carica il report Excel come file scaricabile
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: revamp-report
+          path: output/*.xlsx
+          if-no-files-found: ignore
+          retention-days: 30

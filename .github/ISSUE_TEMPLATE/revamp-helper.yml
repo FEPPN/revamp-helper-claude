@@ -1,0 +1,56 @@
+name: Rapport de revamp
+description: Rapport SERP + Ahrefs + GSC + concurrents pour un revamp de page papernest.com (marché FR)
+title: "@claude [Rapport de revamp] "
+labels: ["revamp-helper"]
+body:
+  - type: input
+    id: keyword
+    attributes:
+      label: Mot-clé principal
+      description: Le mot-clé français cible pour ce revamp
+      placeholder: "avis edf"
+    validations:
+      required: true
+  - type: input
+    id: brand
+    attributes:
+      label: Marque
+      description: Le nom de la marque tel qu'il doit apparaître dans le rapport (phrases en français)
+      placeholder: "EDF"
+    validations:
+      required: true
+  - type: input
+    id: page_url
+    attributes:
+      label: URL de la page cible (optionnel)
+      description: Laissez vide pour que Claude la trouve automatiquement (site:papernest.com)
+      placeholder: "https://www.papernest.com/demarches-energie/edf/avis/"
+    validations:
+      required: false
+  - type: textarea
+    id: ahrefs_csv
+    attributes:
+      label: Export CSV Ahrefs "Matching terms" (optionnel)
+      description: >-
+        Ahrefs Keywords Explorer → votre mot-clé → Matching terms → Terms match: All → Export
+        → collez ici le contenu du CSV. Sans ça, l'onglet Ahrefs du rapport est simplement omis
+        (et signalé comme tel).
+      render: csv
+    validations:
+      required: false
+  - type: textarea
+    id: note
+    attributes:
+      label: Contexte supplémentaire (optionnel)
+      description: Toute précision utile avant de commencer
+    validations:
+      required: false
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        Après l'envoi, Claude répond ci-dessous en commentaire d'ici quelques minutes avec un
+        aperçu du rapport (mots-clés secondaires, concurrents trouvés, alerte cannibalisation le
+        cas échéant) et un fichier Excel téléchargeable en bas de la page de la run, sous
+        "Artifacts". Pour relancer avec une page cible différente ou un CSV Ahrefs, commentez
+        `@claude` avec les nouvelles informations.
